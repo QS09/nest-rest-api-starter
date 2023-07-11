@@ -1,0 +1,39 @@
+version: "3.7"
+
+services:
+  # postgres service
+  s_nest_pg_db:
+    image: postgres
+    container_name: c_nest_pg_db
+    restart: always
+    hostname: postgres
+    expose:
+      - 54321
+    ports:
+      - "54321:5432"
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER:-postgres}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-password}
+      - POSTGRES_DB=nestdb
+    volumes:
+      - v_nest_pg_db:/var/lib/postgresql/pg_data
+
+  # pgadmin service
+  s_nest_pg_admin:
+    image: dpage/pgadmin4
+    container_name: c_nest_pg_admin
+    restart: always
+    expose:
+      - 5050
+    ports:
+      - "5050:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-pgadmin@pgadmin.org}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-P9@dmin!@#}
+    volumes:
+      - v_nest_pg_admin:/var/lib/pg_admin
+
+# volumes
+volumes:
+  v_nest_pg_db:
+  v_nest_pg_admin:

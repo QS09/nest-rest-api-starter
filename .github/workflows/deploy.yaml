@@ -1,0 +1,28 @@
+name: Deployment
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      HOST: ${{ secrets.HOST }}
+      USERNAME: ${{ secrets.USERNAME }}
+      PORT: ${{ secrets.PORT }}
+      KEY: ${{ secrets.SSHKEY }}
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Copy file via scp
+        uses: appleboy/scp-action@master
+        with:
+          source: "."
+          target: "/var/www/api"
+
+      - name: Executing remote  command
+        uses: appleboy/ssh-action@master
+        with:
+          script: cd /var/www/api && sh start.sh

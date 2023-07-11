@@ -1,0 +1,11 @@
+.idea/
+.idea/**/*
+
+.github/
+.github/**/*
+
+node_modules/
+node_modules/**/*
+
+dist/
+dist/**/*
